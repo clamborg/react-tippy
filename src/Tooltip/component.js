@@ -33,6 +33,7 @@ const defaultProps = {
   size: 'regular',
   className: '',
   style: {},
+  appendTo: () => document.body,
   distance: 10,
   onRequestClose: () => {},
   sticky: false,
@@ -186,7 +187,7 @@ class Tooltip extends Component {
   }
 
   _initTippy() {
-      if (typeof window === 'undefined' || typeof document === 'undefined' || !Browser.SUPPORTED) {
+    if (typeof window === 'undefined' || typeof document === 'undefined' || !Browser.SUPPORTED) {
       return;
     }
     if (!this.props.disabled) {
@@ -222,6 +223,7 @@ class Tooltip extends Component {
         onHidden: this.props.onHidden,
         distance: this.props.distance,
         reactDOM: this.props.html,
+        appendTo: this.props.appendTo,
         setReactDOMValue: newReactDOM => this.setState({ reactDOMValue: newReactDOM }),
         unmountHTMLWhenHide: this.props.unmountHTMLWhenHide,
         open: this.props.open,
@@ -263,58 +265,58 @@ class Tooltip extends Component {
     } = this.props;
 
     return (
-      <React.Fragment>
-        <Tag
-          ref={(tooltip) =>
-            { this.tooltipDOM = tooltip; }}
-            title={this.props.title}
-            className={this.props.className}
-            tabIndex={this.props.tabIndex}
-            style={{
-              display: 'inline',
+        <React.Fragment>
+          <Tag
+              ref={(tooltip) =>
+              { this.tooltipDOM = tooltip; }}
+              title={this.props.title}
+              className={this.props.className}
+              tabIndex={this.props.tabIndex}
+              style={{
+                display: 'inline',
                 ...this.props.style
-            }}
+              }}
           >
             {this.props.children}
 
-        </Tag>
-        {this.state.reactDOMValue && (
-          <div
-            onClick={stopPortalEvent}
-            onContextMenu={stopPortalEvent}
-            onDoubleClick={stopPortalEvent}
-            onDrag={stopPortalEvent}
-            onDragEnd={stopPortalEvent}
-            onDragEnter={stopPortalEvent}
-            onDragExit={stopPortalEvent}
-            onDragLeave={stopPortalEvent}
-            onDragOver={stopPortalEvent}
-            onDragStart={stopPortalEvent}
-            onDrop={stopPortalEvent}
-            onMouseDown={stopPortalEvent}
-            onMouseEnter={stopPortalEvent}
-            onMouseLeave={stopPortalEvent}
-            onMouseMove={stopPortalEvent}
-            onMouseOver={stopPortalEvent}
-            onMouseOut={stopPortalEvent}
-            onMouseUp={stopPortalEvent}
-    
-            onKeyDown={stopPortalEvent}
-            onKeyPress={stopPortalEvent}
-            onKeyUp={stopPortalEvent}
-    
-            onFocus={stopPortalEvent}
-            onBlur={stopPortalEvent}
-    
-            onChange={stopPortalEvent}
-            onInput={stopPortalEvent}
-            onInvalid={stopPortalEvent}
-            onSubmit={stopPortalEvent}
-          >
-            {this.state.reactDOMValue}
-          </div>
-        )}
-      </React.Fragment>
+          </Tag>
+          {this.state.reactDOMValue && (
+              <div
+                  onClick={stopPortalEvent}
+                  onContextMenu={stopPortalEvent}
+                  onDoubleClick={stopPortalEvent}
+                  onDrag={stopPortalEvent}
+                  onDragEnd={stopPortalEvent}
+                  onDragEnter={stopPortalEvent}
+                  onDragExit={stopPortalEvent}
+                  onDragLeave={stopPortalEvent}
+                  onDragOver={stopPortalEvent}
+                  onDragStart={stopPortalEvent}
+                  onDrop={stopPortalEvent}
+                  onMouseDown={stopPortalEvent}
+                  onMouseEnter={stopPortalEvent}
+                  onMouseLeave={stopPortalEvent}
+                  onMouseMove={stopPortalEvent}
+                  onMouseOver={stopPortalEvent}
+                  onMouseOut={stopPortalEvent}
+                  onMouseUp={stopPortalEvent}
+
+                  onKeyDown={stopPortalEvent}
+                  onKeyPress={stopPortalEvent}
+                  onKeyUp={stopPortalEvent}
+
+                  onFocus={stopPortalEvent}
+                  onBlur={stopPortalEvent}
+
+                  onChange={stopPortalEvent}
+                  onInput={stopPortalEvent}
+                  onInvalid={stopPortalEvent}
+                  onSubmit={stopPortalEvent}
+              >
+                {this.state.reactDOMValue}
+              </div>
+          )}
+        </React.Fragment>
     );
   }
 }

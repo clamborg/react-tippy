@@ -7,7 +7,7 @@
 		exports["reactTippy"] = factory(require("react"), require("popper.js"), require("react-dom"));
 	else
 		root["reactTippy"] = factory(root["React"], root["Popper"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_38__, __WEBPACK_EXTERNAL_MODULE_39__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_14__, __WEBPACK_EXTERNAL_MODULE_38__, __WEBPACK_EXTERNAL_MODULE_39__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -119,12 +119,11 @@ var Selectors = exports.Selectors = {
   ARROW: '[x-arrow]',
   TOOLTIPPED_EL: '[data-tooltipped]',
   CONTROLLER: '[data-tippy-controller]'
-};
 
-/**
-* The default settings applied to each instance
-*/
-var Defaults = exports.Defaults = {
+  /**
+  * The default settings applied to each instance
+  */
+};var Defaults = exports.Defaults = {
   html: false,
   position: 'top',
   animation: 'shift',
@@ -159,13 +158,12 @@ var Defaults = exports.Defaults = {
   popperOptions: {},
   open: undefined,
   onRequestClose: function onRequestClose() {}
-};
 
-/**
-* The keys of the defaults object for reducing down into a new object
-* Used in `getIndividualSettings()`
-*/
-var DefaultsKeys = exports.DefaultsKeys = Browser.SUPPORTED && Object.keys(Defaults);
+  /**
+  * The keys of the defaults object for reducing down into a new object
+  * Used in `getIndividualSettings()`
+  */
+};var DefaultsKeys = exports.DefaultsKeys = Browser.SUPPORTED && Object.keys(Defaults);
 
 /***/ }),
 /* 1 */
@@ -380,7 +378,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(13);
+var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -431,6 +429,9 @@ var defaultProps = {
   size: 'regular',
   className: '',
   style: {},
+  appendTo: function appendTo() {
+    return document.body;
+  },
   distance: 10,
   onRequestClose: function onRequestClose() {},
   sticky: false,
@@ -640,6 +641,7 @@ var Tooltip = function (_Component) {
           onHidden: this.props.onHidden,
           distance: this.props.distance,
           reactDOM: this.props.html,
+          appendTo: this.props.appendTo,
           setReactDOMValue: function setReactDOMValue(newReactDOM) {
             return _this3.setState({ reactDOMValue: newReactDOM });
           },
@@ -760,6 +762,37 @@ exports.default = Tooltip;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = evaluateSettings;
+/**
+* Evaluates/modifies the settings object for appropriate behavior
+* @param {Object} settings
+* @return {Object} modified/evaluated settings
+*/
+function evaluateSettings(settings) {
+  // animateFill is disabled if an arrow is true
+  if (settings.arrow) {
+    settings.animateFill = false;
+  }
+
+  // reassign appendTo into the result of evaluating appendTo
+  // if it's set as a function instead of Element
+  if (settings.appendTo && typeof settings.appendTo === 'function') {
+    settings.appendTo = settings.appendTo();
+  }
+
+  return settings;
+}
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = followCursorHandler;
 
 var _globals = __webpack_require__(0);
@@ -848,7 +881,7 @@ function followCursorHandler(e) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -872,7 +905,7 @@ function getOffsetDistanceInPx(distance) {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -899,13 +932,13 @@ function removeTitle(el) {
 }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_13__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_14__;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -915,7 +948,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(13);
+var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -943,7 +976,7 @@ var withTooltip = function withTooltip(Component) {
 exports.default = withTooltip;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -958,7 +991,7 @@ var _component = __webpack_require__(9);
 
 var _component2 = _interopRequireDefault(_component);
 
-var _hoc = __webpack_require__(14);
+var _hoc = __webpack_require__(15);
 
 var _hoc2 = _interopRequireDefault(_hoc);
 
@@ -968,7 +1001,7 @@ exports.Tooltip = _component2.default;
 exports.withTooltip = _hoc2.default;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1101,7 +1134,7 @@ function bindEventListeners() {
 }
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1116,7 +1149,7 @@ var _getCorePlacement = __webpack_require__(3);
 
 var _getCorePlacement2 = _interopRequireDefault(_getCorePlacement);
 
-var _getOffsetDistanceInPx = __webpack_require__(11);
+var _getOffsetDistanceInPx = __webpack_require__(12);
 
 var _getOffsetDistanceInPx2 = _interopRequireDefault(_getOffsetDistanceInPx);
 
@@ -1217,7 +1250,7 @@ function createPopperElement(id, title, settings) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1251,7 +1284,7 @@ var _getInnerElements2 = __webpack_require__(6);
 
 var _getInnerElements3 = _interopRequireDefault(_getInnerElements2);
 
-var _getOffsetDistanceInPx = __webpack_require__(11);
+var _getOffsetDistanceInPx = __webpack_require__(12);
 
 var _getOffsetDistanceInPx2 = _interopRequireDefault(_getOffsetDistanceInPx);
 
@@ -1322,7 +1355,7 @@ function createPopperInstance(data) {
 }
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1337,11 +1370,11 @@ var _getIndividualSettings = __webpack_require__(24);
 
 var _getIndividualSettings2 = _interopRequireDefault(_getIndividualSettings);
 
-var _createPopperElement = __webpack_require__(17);
+var _createPopperElement = __webpack_require__(18);
 
 var _createPopperElement2 = _interopRequireDefault(_createPopperElement);
 
-var _createTrigger = __webpack_require__(20);
+var _createTrigger = __webpack_require__(21);
 
 var _createTrigger2 = _interopRequireDefault(_createTrigger);
 
@@ -1349,11 +1382,11 @@ var _getEventListenerHandlers = __webpack_require__(23);
 
 var _getEventListenerHandlers2 = _interopRequireDefault(_getEventListenerHandlers);
 
-var _evaluateSettings = __webpack_require__(21);
+var _evaluateSettings = __webpack_require__(10);
 
 var _evaluateSettings2 = _interopRequireDefault(_evaluateSettings);
 
-var _removeTitle = __webpack_require__(12);
+var _removeTitle = __webpack_require__(13);
 
 var _removeTitle2 = _interopRequireDefault(_removeTitle);
 
@@ -1414,7 +1447,7 @@ function createTooltips(els) {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1478,37 +1511,6 @@ function createTrigger(event, el, handlers, touchHold) {
   }
 
   return listeners;
-}
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = evaluateSettings;
-/**
-* Evaluates/modifies the settings object for appropriate behavior
-* @param {Object} settings
-* @return {Object} modified/evaluated settings
-*/
-function evaluateSettings(settings) {
-  // animateFill is disabled if an arrow is true
-  if (settings.arrow) {
-    settings.animateFill = false;
-  }
-
-  // reassign appendTo into the result of evaluating appendTo
-  // if it's set as a function instead of Element
-  if (settings.appendTo && typeof settings.appendTo === 'function') {
-    settings.appendTo = settings.appendTo();
-  }
-
-  return settings;
 }
 
 /***/ }),
@@ -1810,7 +1812,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _bindEventListeners = __webpack_require__(16);
+var _bindEventListeners = __webpack_require__(17);
 
 var _bindEventListeners2 = _interopRequireDefault(_bindEventListeners);
 
@@ -1899,11 +1901,11 @@ exports.default = mountPopper;
 
 var _globals = __webpack_require__(0);
 
-var _followCursorHandler = __webpack_require__(10);
+var _followCursorHandler = __webpack_require__(11);
 
 var _followCursorHandler2 = _interopRequireDefault(_followCursorHandler);
 
-var _createPopperInstance = __webpack_require__(18);
+var _createPopperInstance = __webpack_require__(19);
 
 var _createPopperInstance2 = _interopRequireDefault(_createPopperInstance);
 
@@ -2051,7 +2053,7 @@ var _findIndex = __webpack_require__(34);
 
 var _findIndex2 = _interopRequireDefault(_findIndex);
 
-var _removeTitle = __webpack_require__(12);
+var _removeTitle = __webpack_require__(13);
 
 var _removeTitle2 = _interopRequireDefault(_removeTitle);
 
@@ -2083,7 +2085,7 @@ var _noop = __webpack_require__(36);
 
 var _noop2 = _interopRequireDefault(_noop);
 
-var _followCursorHandler = __webpack_require__(10);
+var _followCursorHandler = __webpack_require__(11);
 
 var _followCursorHandler2 = _interopRequireDefault(_followCursorHandler);
 
@@ -2103,9 +2105,13 @@ var _makeSticky = __webpack_require__(27);
 
 var _makeSticky2 = _interopRequireDefault(_makeSticky);
 
-var _createTooltips = __webpack_require__(19);
+var _createTooltips = __webpack_require__(20);
 
 var _createTooltips2 = _interopRequireDefault(_createTooltips);
+
+var _evaluateSettings = __webpack_require__(10);
+
+var _evaluateSettings2 = _interopRequireDefault(_evaluateSettings);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2114,9 +2120,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
-* @param {String|Element|Element[]} selector
-* @param {Object} settings (optional) - the object of settings to be applied to the instance
-*/
+ * @param {String|Element|Element[]} selector
+ * @param {Object} settings (optional) - the object of settings to be applied to the instance
+ */
 var Tippy = function () {
   function Tippy(selector) {
     var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -2153,10 +2159,10 @@ var Tippy = function () {
   }
 
   /**
-  * Returns the reference element's popper element
-  * @param {Element} el
-  * @return {Element}
-  */
+   * Returns the reference element's popper element
+   * @param {Element} el
+   * @return {Element}
+   */
 
 
   _createClass(Tippy, [{
@@ -2172,10 +2178,10 @@ var Tippy = function () {
     }
 
     /**
-    * Returns a popper's reference element
-    * @param {Element} popper
-    * @return {Element}
-    */
+     * Returns a popper's reference element
+     * @param {Element} popper
+     * @return {Element}
+     */
 
   }, {
     key: 'getReferenceElement',
@@ -2190,10 +2196,10 @@ var Tippy = function () {
     }
 
     /**
-    * Returns the reference data object from either the reference element or popper element
-    * @param {Element} x (reference element or popper)
-    * @return {Object}
-    */
+     * Returns the reference data object from either the reference element or popper element
+     * @param {Element} x (reference element or popper)
+     * @return {Object}
+     */
 
   }, {
     key: 'getReferenceData',
@@ -2204,11 +2210,11 @@ var Tippy = function () {
     }
 
     /**
-    * Update settings
-    * @param {DOMElement} - popper
-    * @param {string} - name
-    * @param {string} - value
-    */
+     * Update settings
+     * @param {DOMElement} - popper
+     * @param {string} - name
+     * @param {string} - value
+     */
 
   }, {
     key: 'updateSettings',
@@ -2219,17 +2225,17 @@ var Tippy = function () {
       if (!data) return;
 
       var newSettings = _extends({}, data.settings, _defineProperty({}, name, value));
-      data.settings = newSettings;
+      data.settings = (0, _evaluateSettings2.default)(newSettings);
     }
   }, {
     key: 'updateForReact',
 
 
     /**
-    * Update for React
-    * @param {DOMElement} - popper
-    * @param {ReactElement} - content
-    */
+     * Update for React
+     * @param {DOMElement} - popper
+     * @param {ReactElement} - content
+     */
     value: function updateForReact(popper, updatedContent) {
       var tooltipContent = popper.querySelector(_globals.Selectors.CONTENT);
       var data = (0, _find2.default)(this.store, function (data) {
@@ -2249,10 +2255,10 @@ var Tippy = function () {
       }
     }
     /**
-    * Shows a popper
-    * @param {Element} popper
-    * @param {Number} customDuration (optional)
-    */
+     * Shows a popper
+     * @param {Element} popper
+     * @param {Number} customDuration (optional)
+     */
 
   }, {
     key: 'show',
@@ -2357,16 +2363,18 @@ var Tippy = function () {
           // Prevents shown() from firing more than once from early transition cancellations
           data._onShownFired = true;
 
-          _this.callbacks.shown.call(popper);
+          if (typeof _this.callbacks.shown === 'function') {
+            _this.callbacks.shown.call(popper);
+          }
         });
       });
     }
 
     /**
-    * Hides a popper
-    * @param {Element} popper
-    * @param {Number} customDuration (optional)
-    */
+     * Hides a popper
+     * @param {Element} popper
+     * @param {Number} customDuration (optional)
+     */
 
   }, {
     key: 'hide',
@@ -2456,9 +2464,9 @@ var Tippy = function () {
     }
 
     /**
-    * Updates a popper with new content
-    * @param {Element} popper
-    */
+     * Updates a popper with new content
+     * @param {Element} popper
+     */
 
   }, {
     key: 'update',
@@ -2488,10 +2496,10 @@ var Tippy = function () {
     }
 
     /**
-    * Destroys a popper
-    * @param {Element} popper
-    * @param {Boolean} _isLast - private param used by destroyAll to optimize
-    */
+     * Destroys a popper
+     * @param {Element} popper
+     * @param {Boolean} _isLast - private param used by destroyAll to optimize
+     */
 
   }, {
     key: 'destroy',
@@ -2545,8 +2553,8 @@ var Tippy = function () {
     }
 
     /**
-    * Destroys all tooltips created by the instance
-    */
+     * Destroys all tooltips created by the instance
+     */
 
   }, {
     key: 'destroyAll',

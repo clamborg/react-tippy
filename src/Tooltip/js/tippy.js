@@ -29,11 +29,12 @@ import onTransitionEnd     from './core/onTransitionEnd'
 import mountPopper         from './core/mountPopper'
 import makeSticky          from './core/makeSticky'
 import createTooltips      from './core/createTooltips'
+import evaluateSettings from './core/evaluateSettings'
 
 /**
-* @param {String|Element|Element[]} selector
-* @param {Object} settings (optional) - the object of settings to be applied to the instance
-*/
+ * @param {String|Element|Element[]} selector
+ * @param {Object} settings (optional) - the object of settings to be applied to the instance
+ */
 class Tippy {
   constructor(selector, settings = {}) {
     // Use default browser tooltip on unsupported browsers
@@ -51,8 +52,8 @@ class Tippy {
 
     if (settings.show || settings.shown || settings.hide || settings.hidden) {
       console.warn(
-        'Callbacks without the `on` prefix are deprecated (with the exception of `wait`).' +
-        ' Use onShow, onShown, onHide, and onHidden instead.'
+          'Callbacks without the `on` prefix are deprecated (with the exception of `wait`).' +
+          ' Use onShow, onShown, onHide, and onHidden instead.'
       )
     }
 
@@ -69,10 +70,10 @@ class Tippy {
   }
 
   /**
-  * Returns the reference element's popper element
-  * @param {Element} el
-  * @return {Element}
-  */
+   * Returns the reference element's popper element
+   * @param {Element} el
+   * @return {Element}
+   */
   getPopperElement(el) {
     try {
       return find(this.store, data => data.el === el).popper
@@ -82,10 +83,10 @@ class Tippy {
   }
 
   /**
-  * Returns a popper's reference element
-  * @param {Element} popper
-  * @return {Element}
-  */
+   * Returns a popper's reference element
+   * @param {Element} popper
+   * @return {Element}
+   */
   getReferenceElement(popper) {
     try {
       return find(this.store, data => data.popper === popper).el
@@ -95,20 +96,20 @@ class Tippy {
   }
 
   /**
-  * Returns the reference data object from either the reference element or popper element
-  * @param {Element} x (reference element or popper)
-  * @return {Object}
-  */
+   * Returns the reference data object from either the reference element or popper element
+   * @param {Element} x (reference element or popper)
+   * @return {Object}
+   */
   getReferenceData(x) {
     return find(this.store, data => data.el === x || data.popper === x)
   }
 
   /**
-  * Update settings
-  * @param {DOMElement} - popper
-  * @param {string} - name
-  * @param {string} - value
-  */
+   * Update settings
+   * @param {DOMElement} - popper
+   * @param {string} - name
+   * @param {string} - value
+   */
 
   updateSettings(popper, name, value) {
     const data = find(this.store, data => data.popper === popper)
@@ -118,14 +119,14 @@ class Tippy {
       ...data.settings,
       [name]: value,
     }
-    data.settings = newSettings;
+    data.settings = evaluateSettings(newSettings);
   };
 
   /**
-  * Update for React
-  * @param {DOMElement} - popper
-  * @param {ReactElement} - content
-  */
+   * Update for React
+   * @param {DOMElement} - popper
+   * @param {ReactElement} - content
+   */
   updateForReact(popper, updatedContent) {
     const tooltipContent = popper.querySelector(Selectors.CONTENT)
     const data = find(this.store, data => data.popper === popper)
@@ -138,24 +139,24 @@ class Tippy {
 
     if (useContext) {
       setReactDOMValue(
-        ReactDOM.createPortal(
-          updatedContent,
-          tooltipContent,
-        )
+          ReactDOM.createPortal(
+              updatedContent,
+              tooltipContent,
+          )
       );
     } else {
       ReactDOM.render(
-        updatedContent,
-        tooltipContent,
+          updatedContent,
+          tooltipContent,
       );
     }
 
   }
   /**
-  * Shows a popper
-  * @param {Element} popper
-  * @param {Number} customDuration (optional)
-  */
+   * Shows a popper
+   * @param {Element} popper
+   * @param {Number} customDuration (optional)
+   */
   show(popper, customDuration) {
     if (this.state.destroyed) return
 
@@ -203,8 +204,8 @@ class Tippy {
     }
 
     const _duration = customDuration !== undefined
-      ? customDuration
-      : Array.isArray(duration) ? duration[0] : duration
+        ? customDuration
+        : Array.isArray(duration) ? duration[0] : duration
 
     // Prevent a transition when popper changes position
     applyTransitionDuration([popper, tooltip, circle], 0)
@@ -262,10 +263,10 @@ class Tippy {
   }
 
   /**
-  * Hides a popper
-  * @param {Element} popper
-  * @param {Number} customDuration (optional)
-  */
+   * Hides a popper
+   * @param {Element} popper
+   * @param {Number} customDuration (optional)
+   */
   hide(popper, customDuration) {
     if (this.state.destroyed) return
 
@@ -299,8 +300,8 @@ class Tippy {
     } = data
 
     const _duration = customDuration !== undefined
-      ? customDuration
-      : Array.isArray(duration) ? duration[1] : duration
+        ? customDuration
+        : Array.isArray(duration) ? duration[1] : duration
 
     data._onShownFired = false
     interactive && el.classList.remove('active')
@@ -332,9 +333,9 @@ class Tippy {
       // This prevents glitchy behavior of the transition when quickly showing
       // and hiding a tooltip.
       if (
-        isVisible(popper) ||
-        !appendTo.contains(popper) ||
-        getComputedStyle(tooltip).opacity === '1'
+          isVisible(popper) ||
+          !appendTo.contains(popper) ||
+          getComputedStyle(tooltip).opacity === '1'
       ) return
 
       el.removeEventListener('mousemove', followCursorHandler)
@@ -351,9 +352,9 @@ class Tippy {
   }
 
   /**
-  * Updates a popper with new content
-  * @param {Element} popper
-  */
+   * Updates a popper with new content
+   * @param {Element} popper
+   */
   update(popper) {
     if (this.state.destroyed) return
 
@@ -369,17 +370,17 @@ class Tippy {
     }
 
     content.innerHTML = html
-      ? document.getElementById(html.replace('#', '')).innerHTML
-      : el.getAttribute('title') || el.getAttribute('data-original-title')
+        ? document.getElementById(html.replace('#', '')).innerHTML
+        : el.getAttribute('title') || el.getAttribute('data-original-title')
 
     if (!html) removeTitle(el)
   }
 
   /**
-  * Destroys a popper
-  * @param {Element} popper
-  * @param {Boolean} _isLast - private param used by destroyAll to optimize
-  */
+   * Destroys a popper
+   * @param {Element} popper
+   * @param {Boolean} _isLast - private param used by destroyAll to optimize
+   */
   destroy(popper, _isLast) {
     if (this.state.destroyed) return
 
@@ -421,8 +422,8 @@ class Tippy {
   }
 
   /**
-  * Destroys all tooltips created by the instance
-  */
+   * Destroys all tooltips created by the instance
+   */
   destroyAll() {
     if (this.state.destroyed) return
 
