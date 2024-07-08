@@ -404,6 +404,11 @@ class Tippy {
 
     // Restore original title
 
+    const originalTitle = el.getAttribute('data-original-title');
+    if (originalTitle) {
+      el.setAttribute('title', originalTitle);
+    }
+
     el.removeAttribute('data-original-title')
     el.removeAttribute('data-tooltipped')
     el.removeAttribute('aria-describedby')
